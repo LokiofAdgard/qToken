@@ -44,6 +44,8 @@ public class Request extends AppCompatActivity {
                                 finish();
                                 Toast.makeText(Request.this, "Request Sent", Toast.LENGTH_SHORT).show();
                                 //TODO: Make request
+                                Intent myIntent = new Intent(Request.this, User_Home1.class);
+                                Request.this.startActivity(myIntent);
 
 
                             }
