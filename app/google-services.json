@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "256427753957",
+    "project_id": "qtoken-1fc60",
+    "storage_bucket": "qtoken-1fc60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256427753957:android:02af9b66066dc7cedeef0c",
+        "android_client_info": {
+          "package_name": "com.example.utoken"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256427753957-pj46vb8oh6ets7m7j53nnabjir8bst9t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHQzWJxM7cKZVwfbY7Gb9VSKLANPhWMp0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256427753957-pj46vb8oh6ets7m7j53nnabjir8bst9t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
