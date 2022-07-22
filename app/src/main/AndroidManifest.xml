@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UToken">
         <activity
-            android:name=".MainActivity"
+            android:name=".User_QRScan"
             android:exported="false" />
         <activity
             android:name=".User_Home1"
@@ -29,7 +29,7 @@
             android:name=".User_Login"
             android:exported="false" />
         <activity
-            android:name=".User_QRScan"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

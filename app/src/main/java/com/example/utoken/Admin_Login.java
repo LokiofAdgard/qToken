@@ -1,6 +1,8 @@
 package com.example.utoken;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +42,9 @@ public class Admin_Login extends AppCompatActivity {
                 else{
                     Toast.makeText(Admin_Login.this, "Log In Successful", Toast.LENGTH_SHORT).show();
                     //TODO: Admin home
+
+                    Intent myIntent = new Intent(Admin_Login.this, User_QRScan.class);
+                    Admin_Login.this.startActivity(myIntent);
 
                 }
 
