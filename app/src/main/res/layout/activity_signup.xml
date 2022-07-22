@@ -3,57 +3,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:paddingHorizontal="40dp"
     android:orientation="vertical"
-    android:weightSum="6"
+    android:weightSum="20"
     android:background="@color/light_green"
     android:layout_gravity="center"
     android:gravity="center"
     tools:context=".Signup">
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
-        android:orientation="vertical"
-        android:weightSum="8"
-        android:layout_margin="30dp">
+        android:layout_weight="2"
+        android:hint="NIC">
+    </EditText>
 
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:hint="NIC">
-        </EditText>
+    <EditText
+        android:id="@+id/vnoL"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:inputType="textCapCharacters"
+        android:hint="Vehicle No. (Letters)">
+    </EditText>
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:hint="Password">
-        </EditText>
+    <EditText
+        android:id="@+id/vnoN"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:inputType="number"
+        android:hint="Vehicle No. (Number)">
+    </EditText>
 
-        <EditText
-            android:id="@+id/password2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:hint="Re-Enter Password">
-        </EditText>
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:hint="Password">
+    </EditText>
 
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="Sign up"
-            android:textStyle="bold"
-            android:textSize="10pt"
-            android:layout_weight="2"
-            android:layout_marginVertical="10dp"/>
+    <EditText
+        android:id="@+id/password2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:hint="Re-Enter Password">
+    </EditText>
 
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Sign up"
+        android:textStyle="bold"
+        android:textSize="10pt"
+        android:layout_weight="2"
+        android:layout_marginVertical="10dp"/>
 
 </LinearLayout>
