@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:weightSum="10"
+    android:orientation="vertical"
+    tools:context=".User_QRScan">
+
+    <TextView
+        android:id="@+id/display"
+        android:text="READY"
+        android:background="@color/light_green"
+        android:gravity="center"
+        android:textSize="70dp"
+        android:textStyle="bold"
+        android:layout_weight="4"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+    </TextView>
+
+    <Button
+        android:text="Scan"
+        android:id="@+id/btn_scan"
+        android:layout_marginTop="70dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp">
+    </Button>
+
+</LinearLayout>

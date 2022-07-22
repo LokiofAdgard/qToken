@@ -42,8 +42,10 @@ public class Request extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 finish();
-                                Toast.makeText(Request.this, String.valueOf(dropdown2.getSelectedItem()), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Request.this, "Request Sent", Toast.LENGTH_SHORT).show();
                                 //TODO: Make request
+                                Intent myIntent = new Intent(Request.this, User_Home1.class);
+                                Request.this.startActivity(myIntent);
 
 
                             }
