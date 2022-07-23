@@ -1,24 +1,35 @@
 package com.example.utoken;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Signup extends AppCompatActivity {
 
-    String[] NICs = {"111111111111", "1111111111111", "c"};
-    String[] VIDs = {"111111111111", "1111111111111", "c"};
+    //String[] NICs = {"111111111111", "1111111111111", "c"};
+    ArrayList<String> NICs = new ArrayList<String>();
+    //String[] VIDs = {"111111111111", "1111111111111", "c"};
+    ArrayList<String> VIDs = new ArrayList<String>();
 
     DatabaseReference databaseUser;
 
@@ -28,6 +39,30 @@ public class Signup extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         databaseUser = FirebaseDatabase.getInstance().getReference("user");
+
+        List<User> userList = new ArrayList<>();
+        databaseUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                userList.clear();
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    User user = postSnapshot.getValue(User.class);
+                    userList.add(user);
+                    NICs.add(user.nic);
+                    VIDs.add(user.vid);
+                    //String name = userList.get(0).getId();
+                    //Toast.makeText(Signup.this, userList.get(0).getId(), Toast.LENGTH_SHORT).show();
+                    // here you can access to name property like university.name
+                    //Toast.makeText(Signup.this, user.id, Toast.LENGTH_SHORT).show();
+                }
+                //Toast.makeText(Signup.this, userList.get(1).getId(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: ");
+            }
+        });
 
         Button Login = (Button) findViewById(R.id.btn_login);
         EditText username = (EditText) findViewById(R.id.username);
@@ -51,7 +86,7 @@ public class Signup extends AppCompatActivity {
                 else if (nic.length()!=12 && nic.length()!=13) {
                     Toast.makeText(Signup.this, "Invalid NIC", Toast.LENGTH_SHORT).show();
                 }
-                else if (Arrays.asList(NICs).contains(nic)) {
+                else if (NICs.contains(nic)) {
                     Toast.makeText(Signup.this, "NIC already registered", Toast.LENGTH_SHORT).show();
                 }
                 else if (v1.length()>3) {
@@ -60,7 +95,7 @@ public class Signup extends AppCompatActivity {
                 else if (v2.length()!=4) {
                     Toast.makeText(Signup.this, "Invalid Vehicle details", Toast.LENGTH_SHORT).show();
                 }
-                else if (Arrays.asList(VIDs).contains(v1+v2)) {
+                else if (VIDs.contains(v1+v2)) {
                     Toast.makeText(Signup.this, "Vehicle ID already registered", Toast.LENGTH_SHORT).show();
                 }
                 else if (pw.length()<5) {
