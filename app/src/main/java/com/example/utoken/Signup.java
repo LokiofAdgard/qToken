@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
@@ -16,10 +19,14 @@ public class Signup extends AppCompatActivity {
 
     String[] NICs = {"111111111111", "1111111111111", "c"};
 
+    DatabaseReference databaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        databaseUser = FirebaseDatabase.getInstance().getReference("user");
 
         Button Login = (Button) findViewById(R.id.btn_login);
         EditText username = (EditText) findViewById(R.id.username);
@@ -48,14 +55,24 @@ public class Signup extends AppCompatActivity {
                     Toast.makeText(Signup.this, "Passwords do not Match", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(Signup.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Signup.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
                     //TODO: add entry
 
+                    //String id = databaseUser.push().getKey();
+                    //User user = new User(id, nic, pw);
+                    //databaseUser.child(id).setValue(user);
+
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference("message");
+
+                    myRef.setValue("Hello, World!");
 
 
 
-                    Intent myIntent = new Intent(Signup.this, User_Login.class);
-                    Signup.this.startActivity(myIntent);
+
+
+                    //Intent myIntent = new Intent(Signup.this, User_Login.class);
+                    //Signup.this.startActivity(myIntent);
 
                 }
 
