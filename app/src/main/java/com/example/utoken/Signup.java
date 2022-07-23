@@ -58,17 +58,9 @@ public class Signup extends AppCompatActivity {
                     //Toast.makeText(Signup.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
                     //TODO: add entry
 
-                    //String id = databaseUser.push().getKey();
-                    //User user = new User(id, nic, pw);
-                    //databaseUser.child(id).setValue(user);
-
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference("message");
-
-                    myRef.setValue("Hello, World!");
-
-
-
+                    String id = databaseUser.push().getKey();
+                    User user = new User(id, nic, pw);
+                    databaseUser.child(id).setValue(user);
 
 
                     //Intent myIntent = new Intent(Signup.this, User_Login.class);
