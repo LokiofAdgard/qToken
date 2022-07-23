@@ -18,6 +18,7 @@ import java.util.Arrays;
 public class Signup extends AppCompatActivity {
 
     String[] NICs = {"111111111111", "1111111111111", "c"};
+    String[] VIDs = {"111111111111", "1111111111111", "c"};
 
     DatabaseReference databaseUser;
 
@@ -30,6 +31,8 @@ public class Signup extends AppCompatActivity {
 
         Button Login = (Button) findViewById(R.id.btn_login);
         EditText username = (EditText) findViewById(R.id.username);
+        EditText vnoL = (EditText) findViewById(R.id.vnoL);
+        EditText vnoN = (EditText) findViewById(R.id.vnoN);
         EditText password = (EditText) findViewById(R.id.password);
         EditText password2 = (EditText) findViewById(R.id.password2);
 
@@ -37,9 +40,12 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String nic = username.getText().toString();
+                String v1 = vnoL.getText().toString();
+                String v2 = vnoN.getText().toString();
                 String pw = password.getText().toString();
                 String pw2 = password2.getText().toString();
-                if(nic.equals("") || pw.equals("") || pw2.equals("")){
+
+                if(nic.equals("") || pw.equals("") || pw2.equals("") || v1.equals("") || v2.equals("")){
                     Toast.makeText(Signup.this, "Please Fill All Fields", Toast.LENGTH_SHORT).show();
                 }
                 else if (nic.length()!=12 && nic.length()!=13) {
@@ -48,6 +54,15 @@ public class Signup extends AppCompatActivity {
                 else if (Arrays.asList(NICs).contains(nic)) {
                     Toast.makeText(Signup.this, "NIC already registered", Toast.LENGTH_SHORT).show();
                 }
+                else if (v1.length()>3) {
+                    Toast.makeText(Signup.this, "Invalid Vehicle details", Toast.LENGTH_SHORT).show();
+                }
+                else if (v2.length()!=4) {
+                    Toast.makeText(Signup.this, "Invalid Vehicle details", Toast.LENGTH_SHORT).show();
+                }
+                else if (Arrays.asList(VIDs).contains(v1+v2)) {
+                    Toast.makeText(Signup.this, "Vehicle ID already registered", Toast.LENGTH_SHORT).show();
+                }
                 else if (pw.length()<5) {
                     Toast.makeText(Signup.this, "Password too short", Toast.LENGTH_SHORT).show();
                 }
@@ -55,12 +70,13 @@ public class Signup extends AppCompatActivity {
                     Toast.makeText(Signup.this, "Passwords do not Match", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    //Toast.makeText(Signup.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
                     //TODO: add entry
 
                     String id = databaseUser.push().getKey();
-                    User user = new User(id, nic, pw);
+                    User user = new User(id, nic, (v1+v2), pw);
+                    assert id != null;
                     databaseUser.child(id).setValue(user);
+                    Toast.makeText(Signup.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
 
 
                     //Intent myIntent = new Intent(Signup.this, User_Login.class);
