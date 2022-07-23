@@ -52,8 +52,6 @@ public class Signup extends AppCompatActivity {
                     //TODO: add entry
 
 
-
-
                     Intent myIntent = new Intent(Signup.this, User_Login.class);
                     Signup.this.startActivity(myIntent);
 
