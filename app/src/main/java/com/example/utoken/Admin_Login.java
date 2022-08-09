@@ -22,8 +22,8 @@ import java.util.List;
 
 public class Admin_Login extends AppCompatActivity {
 
-    String[] Users = {"Tom", "Hank", "c"};
-    String[] Pws = {"cruise", "griffin", "c"};
+    //String[] Users = {"Tom", "Hank", "c"};
+    //String[] Pws = {"cruise", "griffin", "c"};
     ArrayList<String> Names = new ArrayList<>();
     ArrayList<String> PWs = new ArrayList<>();
 
