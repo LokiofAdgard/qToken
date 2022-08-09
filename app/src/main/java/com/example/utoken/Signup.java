@@ -107,8 +107,8 @@ public class Signup extends AppCompatActivity {
                 Toast.makeText(Signup.this, "Successfully Registered", Toast.LENGTH_SHORT).show();
 
 
-                //Intent myIntent = new Intent(Signup.this, User_Login.class);
-                //Signup.this.startActivity(myIntent);
+                Intent myIntent = new Intent(Signup.this, User_Login.class);
+                Signup.this.startActivity(myIntent);
             }
         });
     }
