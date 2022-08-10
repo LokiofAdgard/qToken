@@ -20,8 +20,8 @@ public class AdminHome extends AppCompatActivity {
         stock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent myIntent = new Intent(AdminHome.this, User_QRScan.class);
-                //AdminHome.this.startActivity(myIntent);
+                Intent myIntent = new Intent(AdminHome.this, AdminStocks.class);
+                AdminHome.this.startActivity(myIntent);
             }
         });
 

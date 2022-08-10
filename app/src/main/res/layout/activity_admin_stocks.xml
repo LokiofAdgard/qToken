@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingHorizontal="20dp"
+    android:weightSum="20"
+    tools:context=".AdminStocks">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:weightSum="9"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Location:"
+            android:textSize="20dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="3">
+        </TextView>
+
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_weight="6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:weightSum="9"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Fuel:"
+            android:textSize="20dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="3">
+        </TextView>
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_weight="6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn"
+        android:text="SUBMIT"
+        android:textSize="20dp"
+        android:layout_weight="3"
+        android:layout_marginVertical="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+    </Button>
+
+</LinearLayout>
