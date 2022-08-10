@@ -5,6 +5,7 @@ public class Admin {
     String password;
     Integer petrol;
     Integer diesel;
+    String id;
 
     public Admin() {
 
@@ -22,6 +23,8 @@ public class Admin {
     public String getName(){
         return this.name;
     }
+
+    public String getId() { return this.id;}
 
     public Integer check(String fuel){
         if (fuel.contains("p")) return petrol;
