@@ -78,7 +78,7 @@ public class Admin_Login extends AppCompatActivity {
 
                     //Intent myIntent = new Intent(Admin_Login.this, User_QRScan.class);
                     Intent myIntent = new Intent(Admin_Login.this, AdminHome.class);
-                    myIntent.putExtra("user", IDs.get(Names.indexOf(name)));
+                    myIntent.putExtra("id", IDs.get(Names.indexOf(name)));
                     Admin_Login.this.startActivity(myIntent);
 
                 }

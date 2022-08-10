@@ -27,6 +27,8 @@ public class AdminStocks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_stocks);
 
+        String id = getIntent().getStringExtra("id");
+
         databaseUser = FirebaseDatabase.getInstance().getReference("admin");
 
         Button btn = (Button) findViewById(R.id.btn);
@@ -50,7 +52,7 @@ public class AdminStocks extends AppCompatActivity {
                                 int p = Integer.parseInt(petrol.getText().toString());
                                 int d = Integer.parseInt(diesel.getText().toString());
 
-                                databaseUser.child("Device3").child("petrol").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                databaseUser.child(id).child("petrol").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                                         if (!task.isSuccessful()) {
@@ -60,12 +62,12 @@ public class AdminStocks extends AppCompatActivity {
                                             //Toast.makeText(AdminStocks.this, String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
                                             String v = String.valueOf(task.getResult().getValue());
                                             Integer v1 = Integer.parseInt(v) + p;
-                                            databaseUser.child("Device3").child("petrol").setValue(v1);
+                                            databaseUser.child(id).child("petrol").setValue(v1);
                                         }
                                     }
                                 });
 
-                                databaseUser.child("Device3").child("diesel").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                databaseUser.child(id).child("diesel").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                                         if (!task.isSuccessful()) {
@@ -75,7 +77,7 @@ public class AdminStocks extends AppCompatActivity {
                                             //Toast.makeText(AdminStocks.this, String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
                                             String v = String.valueOf(task.getResult().getValue());
                                             Integer v1 = Integer.parseInt(v) + d;
-                                            databaseUser.child("Device3").child("diesel").setValue(v1);
+                                            databaseUser.child(id).child("diesel").setValue(v1);
                                         }
                                     }
                                 });

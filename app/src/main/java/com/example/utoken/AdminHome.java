@@ -14,6 +14,8 @@ public class AdminHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
 
+        String id = getIntent().getStringExtra("id");
+
         Button stock = (Button) findViewById(R.id.stock);
         Button scan = (Button) findViewById(R.id.scan);
 
@@ -21,6 +23,7 @@ public class AdminHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(AdminHome.this, AdminStocks.class);
+                myIntent.putExtra("id", id);
                 AdminHome.this.startActivity(myIntent);
             }
         });
