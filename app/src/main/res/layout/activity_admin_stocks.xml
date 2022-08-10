@@ -18,21 +18,21 @@
         android:orientation="horizontal">
 
         <TextView
-            android:text="Location:"
+            android:text="Petrol Received :"
             android:textSize="20dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_weight="3">
+            android:layout_weight="5">
         </TextView>
 
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_weight="6"
+        <EditText
+            android:id="@+id/petrol"
+            android:layout_weight="4"
             android:layout_width="0dp"
+            android:text="0"
             android:layout_height="match_parent"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"/>
+            android:inputType="number" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,21 +43,21 @@
         android:orientation="horizontal">
 
         <TextView
-            android:text="Fuel:"
+            android:text="Diesel Received :"
             android:textSize="20dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_weight="3">
+            android:layout_weight="5">
         </TextView>
 
-        <Spinner
-            android:id="@+id/spinner2"
-            android:layout_weight="6"
+        <EditText
+            android:id="@+id/diesel"
+            android:layout_weight="4"
+            android:text="0"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"/>
+            android:inputType="number"/>
     </LinearLayout>
 
     <Button

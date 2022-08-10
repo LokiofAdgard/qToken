@@ -3,6 +3,8 @@ package com.example.utoken;
 public class Admin {
     String name;
     String password;
+    Integer petrol;
+    Integer diesel;
 
     public Admin() {
 
@@ -19,5 +21,20 @@ public class Admin {
 
     public String getName(){
         return this.name;
+    }
+
+    public Integer check(String fuel){
+        if (fuel.contains("p")) return petrol;
+        else return diesel;
+    }
+
+    public void reduce(String f, Integer v) {
+        if (f.contains("p")) petrol = petrol - v;
+        else diesel = diesel - v;
+    }
+
+    public void setFuel(String f, Integer v){
+        if (f.contains("p")) petrol = v;
+        else diesel = v;
     }
 }
