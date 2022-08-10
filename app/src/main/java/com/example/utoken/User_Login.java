@@ -17,14 +17,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class User_Login extends AppCompatActivity {
 
-    //String[] NICs = {"111111111111", "1111111111111", "c"};
     ArrayList<String> NICs = new ArrayList<>();
-    //String[] VIDs = {"111111111111", "1111111111111", "c"};
     ArrayList<String> VIDs = new ArrayList<>();
     ArrayList<String> PWs = new ArrayList<>();
 

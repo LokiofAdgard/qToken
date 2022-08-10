@@ -17,13 +17,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Admin_Login extends AppCompatActivity {
 
-    //String[] Users = {"Tom", "Hank", "c"};
-    //String[] Pws = {"cruise", "griffin", "c"};
     ArrayList<String> Names = new ArrayList<>();
     ArrayList<String> PWs = new ArrayList<>();
 
