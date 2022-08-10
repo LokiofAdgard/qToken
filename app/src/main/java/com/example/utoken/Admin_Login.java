@@ -74,7 +74,8 @@ public class Admin_Login extends AppCompatActivity {
                     Toast.makeText(Admin_Login.this, "Log In Successful", Toast.LENGTH_SHORT).show();
                     //TODO: Admin home
 
-                    Intent myIntent = new Intent(Admin_Login.this, User_QRScan.class);
+                    //Intent myIntent = new Intent(Admin_Login.this, User_QRScan.class);
+                    Intent myIntent = new Intent(Admin_Login.this, AdminHome.class);
                     Admin_Login.this.startActivity(myIntent);
 
                 }
