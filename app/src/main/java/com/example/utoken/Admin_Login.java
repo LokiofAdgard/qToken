@@ -23,6 +23,7 @@ public class Admin_Login extends AppCompatActivity {
 
     ArrayList<String> Names = new ArrayList<>();
     ArrayList<String> PWs = new ArrayList<>();
+    ArrayList<String> IDs = new ArrayList<>();
 
     DatabaseReference databaseUser;
 
@@ -42,6 +43,7 @@ public class Admin_Login extends AppCompatActivity {
                     Admin admin = postSnapshot.getValue(Admin.class);
                     adminList.add(admin);
                     assert admin != null;
+                    IDs.add(admin.id);
                     Names.add(admin.name);
                     PWs.add(admin.password);
                 }
@@ -74,7 +76,9 @@ public class Admin_Login extends AppCompatActivity {
                     Toast.makeText(Admin_Login.this, "Log In Successful", Toast.LENGTH_SHORT).show();
                     //TODO: Admin home
 
-                    Intent myIntent = new Intent(Admin_Login.this, User_QRScan.class);
+                    //Intent myIntent = new Intent(Admin_Login.this, User_QRScan.class);
+                    Intent myIntent = new Intent(Admin_Login.this, AdminHome.class);
+                    myIntent.putExtra("id", IDs.get(Names.indexOf(name)));
                     Admin_Login.this.startActivity(myIntent);
 
                 }

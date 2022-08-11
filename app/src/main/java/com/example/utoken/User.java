@@ -5,6 +5,7 @@ public class User {
     String nic;
     String vid;
     String password;
+    Boolean approved;
 
     public User(){
 
@@ -15,6 +16,7 @@ public class User {
         this.nic = nic;
         this.vid = vid;
         this.password = password;
+        this.approved = true;
     }
 
     public String getId() {
@@ -32,4 +34,7 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public Boolean getApproved() { return approved;}
+
 }

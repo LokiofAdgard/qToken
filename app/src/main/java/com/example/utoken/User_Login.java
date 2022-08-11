@@ -21,6 +21,7 @@ import java.util.List;
 
 public class User_Login extends AppCompatActivity {
 
+    ArrayList<String> IDs = new ArrayList<>();
     ArrayList<String> NICs = new ArrayList<>();
     ArrayList<String> VIDs = new ArrayList<>();
     ArrayList<String> PWs = new ArrayList<>();
@@ -43,6 +44,7 @@ public class User_Login extends AppCompatActivity {
                     User user = postSnapshot.getValue(User.class);
                     userList.add(user);
                     assert user != null;
+                    IDs.add(user.id);
                     NICs.add(user.nic);
                     VIDs.add(user.vid);
                     PWs.add(user.password);
@@ -82,6 +84,7 @@ public class User_Login extends AppCompatActivity {
                     Toast.makeText(User_Login.this, "Log In Successful", Toast.LENGTH_SHORT).show();
                     //TODO: User home
                     Intent myIntent = new Intent(User_Login.this, Request.class);
+                    myIntent.putExtra("id", IDs.get(NICs.indexOf(nic)));
                     User_Login.this.startActivity(myIntent);
                 }
 

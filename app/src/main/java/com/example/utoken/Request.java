@@ -1,23 +1,37 @@
 package com.example.utoken;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Request extends AppCompatActivity {
+
+    DatabaseReference databaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request);
+
+        String id = getIntent().getStringExtra("id");
+
+        databaseUser = FirebaseDatabase.getInstance().getReference("user");
 
         Button btn = (Button) findViewById(R.id.btn);
 
@@ -42,12 +56,33 @@ public class Request extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 finish();
-                                Toast.makeText(Request.this, "Request Sent", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(Request.this, "Request Sent", Toast.LENGTH_SHORT).show();
                                 //TODO: Make request
-                                Intent myIntent = new Intent(Request.this, User_Home1.class);
-                                Request.this.startActivity(myIntent);
 
 
+                                databaseUser.child(id).child("approved").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                        if (!task.isSuccessful()) {
+                                            Log.e("firebase", "Error getting data", task.getException());
+                                        }
+                                        else {
+                                            //Toast.makeText(AdminStocks.this, String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
+                                            Boolean v = (Boolean) task.getResult().getValue();
+                                            if (v) {
+                                                Toast.makeText(Request.this, "approved", Toast.LENGTH_SHORT).show();
+
+                                                //TODO: Check availability and approve
+
+                                                Intent myIntent = new Intent(Request.this, User_Home1.class);
+                                                Request.this.startActivity(myIntent);
+                                            }
+                                            else {
+                                                Toast.makeText(Request.this, "Not Approved", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    }
+                                });
                             }
                         })
                         .show();
