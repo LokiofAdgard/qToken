@@ -5,6 +5,8 @@ public class User {
     String nic;
     String vid;
     String password;
+    String station;
+    String aid;
     Boolean approved;
     Boolean qr;
     Long time;
@@ -21,6 +23,8 @@ public class User {
         this.approved = true;
         this.qr = false;
         this.time = Long.valueOf(0);
+        this.station = "";
+        this.aid = "";
     }
 
     public String getId() {
@@ -38,6 +42,10 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public String getStation() { return station;}
+
+    public String getAid() { return aid;}
 
     public Boolean getApproved() { return approved;}
 

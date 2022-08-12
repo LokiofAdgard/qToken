@@ -10,13 +10,15 @@
     android:weightSum="8">
 
     <TextView
+        android:id="@+id/show"
         android:text="Show the following QR code at your Gas station;"
         android:textSize="25dp"
         android:textStyle="bold"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:paddingHorizontal="20dp">
     </TextView>
 
     <ImageView
