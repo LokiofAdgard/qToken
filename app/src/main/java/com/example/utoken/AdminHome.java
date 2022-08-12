@@ -74,6 +74,7 @@ public class AdminHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(AdminHome.this, User_QRScan.class);
+                myIntent.putExtra("id", id);
                 AdminHome.this.startActivity(myIntent);
             }
         });

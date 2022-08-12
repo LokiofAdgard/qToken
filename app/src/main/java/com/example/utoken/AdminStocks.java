@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,8 +47,7 @@ public class AdminStocks extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 finish();
-                                Toast.makeText(AdminStocks.this, "Request Sent", Toast.LENGTH_SHORT).show();
-                                //TODO: Make request
+                                Toast.makeText(AdminStocks.this, "Updated", Toast.LENGTH_SHORT).show();
 
                                 int p = Integer.parseInt(petrol.getText().toString());
                                 int d = Integer.parseInt(diesel.getText().toString());
@@ -81,6 +81,10 @@ public class AdminStocks extends AppCompatActivity {
                                         }
                                     }
                                 });
+
+                                Intent myIntent = new Intent(AdminStocks.this, AdminHome.class);
+                                myIntent.putExtra("id", id);
+                                AdminStocks.this.startActivity(myIntent);
 
                             }
                         })
