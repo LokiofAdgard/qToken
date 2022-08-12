@@ -6,6 +6,7 @@ public class User {
     String vid;
     String password;
     Boolean approved;
+    Boolean qr;
 
     public User(){
 
@@ -17,6 +18,7 @@ public class User {
         this.vid = vid;
         this.password = password;
         this.approved = true;
+        this.qr = false;
     }
 
     public String getId() {
@@ -36,5 +38,7 @@ public class User {
     }
 
     public Boolean getApproved() { return approved;}
+
+    public Boolean getQr() { return qr;}
 
 }

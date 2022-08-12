@@ -110,27 +110,29 @@ public class Request extends AppCompatActivity {
                                                 String loc = dropdown1.getSelectedItem().toString().toLowerCase(Locale.ROOT);
                                                 String type = dropdown2.getSelectedItem().toString().toLowerCase(Locale.ROOT);
                                                 int q = adminChoose(loc, type);
-                                                Toast.makeText(Request.this, String.valueOf(q), Toast.LENGTH_SHORT).show();
+                                                //Toast.makeText(Request.this, String.valueOf(q), Toast.LENGTH_SHORT).show();
+                                                if (q>=0) {
 
-                                                databaseAdmin.child(IDs.get(q)).child(type).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                                        if (!task.isSuccessful()) {
-                                                            Log.e("firebase", "Error getting data", task.getException());
+                                                    databaseAdmin.child(IDs.get(q)).child(type).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                                            if (!task.isSuccessful()) {
+                                                                Log.e("firebase", "Error getting data", task.getException());
+                                                            } else {
+                                                                String v = String.valueOf(task.getResult().getValue());
+                                                                Integer v1 = Integer.parseInt(v) - 10;
+                                                                databaseAdmin.child(IDs.get(q)).child(type).setValue(v1);
+                                                                databaseUser.child(id).child("approved").setValue(false);
+                                                                databaseUser.child(id).child("qr").setValue(true);
+                                                            }
                                                         }
-                                                        else {
-                                                            //Toast.makeText(AdminStocks.this, String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
-                                                            String v = String.valueOf(task.getResult().getValue());
-                                                            Integer v1 = Integer.parseInt(v) - 10;
-                                                            databaseAdmin.child(IDs.get(q)).child(type).setValue(v1);
-                                                        }
-                                                    }
-                                                });
+                                                    });
 
-                                                //TODO: Check availability and approve
-
-                                                Intent myIntent = new Intent(Request.this, User_Home1.class);
-                                                Request.this.startActivity(myIntent);
+                                                    Intent myIntent = new Intent(Request.this, User_Home1.class);
+                                                    myIntent.putExtra("id", id);
+                                                    Request.this.startActivity(myIntent);
+                                                }
+                                                else {Toast.makeText(Request.this, "No Stocks", Toast.LENGTH_SHORT).show();}
                                             }
                                             else {
                                                 Toast.makeText(Request.this, "Not Approved", Toast.LENGTH_SHORT).show();
@@ -168,6 +170,7 @@ public class Request extends AppCompatActivity {
                 }
             }
         }
-        return idx.get(amt.indexOf(max));
+        if (max>10) return idx.get(amt.indexOf(max));
+        else return (-1);
     }
 }
