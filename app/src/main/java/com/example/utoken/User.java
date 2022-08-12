@@ -7,6 +7,7 @@ public class User {
     String password;
     Boolean approved;
     Boolean qr;
+    Long time;
 
     public User(){
 
@@ -19,6 +20,7 @@ public class User {
         this.password = password;
         this.approved = true;
         this.qr = false;
+        this.time = Long.valueOf(0);
     }
 
     public String getId() {
@@ -40,5 +42,7 @@ public class User {
     public Boolean getApproved() { return approved;}
 
     public Boolean getQr() { return qr;}
+
+    public Long getTime() { return time;}
 
 }
