@@ -25,10 +25,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class Request extends AppCompatActivity {
 
     ArrayList<String> LOCs = new ArrayList<>();
+    ArrayList<String> IDs = new ArrayList<>();
     ArrayList<Integer> Petrol = new ArrayList<>();
     ArrayList<Integer> Diesel = new ArrayList<>();
 
@@ -54,6 +56,7 @@ public class Request extends AppCompatActivity {
                     Admin admin = postSnapshot.getValue(Admin.class);
                     adminList.add(admin);
                     assert admin != null;
+                    IDs.add(admin.id);
                     LOCs.add(admin.location);
                     Petrol.add(admin.petrol);
                     Diesel.add(admin.diesel);
@@ -103,8 +106,26 @@ public class Request extends AppCompatActivity {
                                             //Toast.makeText(AdminStocks.this, String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
                                             Boolean v = (Boolean) task.getResult().getValue();
                                             if (v) {
-                                                Toast.makeText(Request.this, "approved", Toast.LENGTH_SHORT).show();
-                                                int q = adminChoose("b", "petrol");
+                                                //Toast.makeText(Request.this, "approved", Toast.LENGTH_SHORT).show();
+                                                String loc = dropdown1.getSelectedItem().toString().toLowerCase(Locale.ROOT);
+                                                String type = dropdown2.getSelectedItem().toString().toLowerCase(Locale.ROOT);
+                                                int q = adminChoose(loc, type);
+                                                Toast.makeText(Request.this, String.valueOf(q), Toast.LENGTH_SHORT).show();
+
+                                                databaseAdmin.child(IDs.get(q)).child(type).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                                        if (!task.isSuccessful()) {
+                                                            Log.e("firebase", "Error getting data", task.getException());
+                                                        }
+                                                        else {
+                                                            //Toast.makeText(AdminStocks.this, String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
+                                                            String v = String.valueOf(task.getResult().getValue());
+                                                            Integer v1 = Integer.parseInt(v) - 10;
+                                                            databaseAdmin.child(IDs.get(q)).child(type).setValue(v1);
+                                                        }
+                                                    }
+                                                });
 
                                                 //TODO: Check availability and approve
 
@@ -137,10 +158,16 @@ public class Request extends AppCompatActivity {
                     if (Petrol.get(i)>max) max = Petrol.get(i);
                 }
             }
-            return idx.get(amt.indexOf(max));
         }
         else {
-            return 0;
+            for (int i = 0; i<LOCs.size(); i++){
+                if ((LOCs.get(i)).equals(loc)) {
+                    idx.add(i);
+                    amt.add(Diesel.get(i));
+                    if (Diesel.get(i)>max) max = Diesel.get(i);
+                }
+            }
         }
+        return idx.get(amt.indexOf(max));
     }
 }
