@@ -17,12 +17,23 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Request extends AppCompatActivity {
 
+    ArrayList<String> LOCs = new ArrayList<>();
+    ArrayList<Integer> Petrol = new ArrayList<>();
+    ArrayList<Integer> Diesel = new ArrayList<>();
+
     DatabaseReference databaseUser;
+    DatabaseReference databaseAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +43,27 @@ public class Request extends AppCompatActivity {
         String id = getIntent().getStringExtra("id");
 
         databaseUser = FirebaseDatabase.getInstance().getReference("user");
+        databaseAdmin = FirebaseDatabase.getInstance().getReference("admin");
+
+        List<Admin> adminList = new ArrayList<>();
+        databaseAdmin.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adminList.clear();
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    Admin admin = postSnapshot.getValue(Admin.class);
+                    adminList.add(admin);
+                    assert admin != null;
+                    LOCs.add(admin.location);
+                    Petrol.add(admin.petrol);
+                    Diesel.add(admin.diesel);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: ");
+            }
+        });
 
         Button btn = (Button) findViewById(R.id.btn);
 
@@ -48,6 +80,7 @@ public class Request extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 new AlertDialog.Builder(Request.this)
                         .setTitle("Confirm Request")
                         .setMessage("Are you sure you want to submit the request?")
@@ -71,6 +104,7 @@ public class Request extends AppCompatActivity {
                                             Boolean v = (Boolean) task.getResult().getValue();
                                             if (v) {
                                                 Toast.makeText(Request.this, "approved", Toast.LENGTH_SHORT).show();
+                                                int q = adminChoose("b", "petrol");
 
                                                 //TODO: Check availability and approve
 
@@ -88,5 +122,25 @@ public class Request extends AppCompatActivity {
                         .show();
             }
         });
+    }
+
+    public int adminChoose(String loc, String type){
+        ArrayList<Integer> idx = new ArrayList<>();
+        ArrayList<Integer> amt = new ArrayList<>();
+        ArrayList<Integer> fin = new ArrayList<>();
+        int max = 0;
+        if (type.equals("petrol")){
+            for (int i = 0; i<LOCs.size(); i++){
+                if ((LOCs.get(i)).equals(loc)) {
+                    idx.add(i);
+                    amt.add(Petrol.get(i));
+                    if (Petrol.get(i)>max) max = Petrol.get(i);
+                }
+            }
+            return idx.get(amt.indexOf(max));
+        }
+        else {
+            return 0;
+        }
     }
 }

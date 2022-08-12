@@ -6,6 +6,7 @@ public class Admin {
     Integer petrol;
     Integer diesel;
     String id;
+    String location;
 
     public Admin() {
 
@@ -25,6 +26,14 @@ public class Admin {
     }
 
     public String getId() { return this.id;}
+
+    public int getPetrol() {return this.petrol;}
+
+    public int getDiesel() {return this.diesel;}
+
+    public String getLocation(){return this.location;}
+
+    public void setLocation(String l){this.location = l;}
 
     public Integer check(String fuel){
         if (fuel.contains("p")) return petrol;
