@@ -17,12 +17,25 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 public class Request extends AppCompatActivity {
 
+    ArrayList<String> LOCs = new ArrayList<>();
+    ArrayList<String> IDs = new ArrayList<>();
+    ArrayList<Integer> Petrol = new ArrayList<>();
+    ArrayList<Integer> Diesel = new ArrayList<>();
+
     DatabaseReference databaseUser;
+    DatabaseReference databaseAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +45,28 @@ public class Request extends AppCompatActivity {
         String id = getIntent().getStringExtra("id");
 
         databaseUser = FirebaseDatabase.getInstance().getReference("user");
+        databaseAdmin = FirebaseDatabase.getInstance().getReference("admin");
+
+        List<Admin> adminList = new ArrayList<>();
+        databaseAdmin.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adminList.clear();
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    Admin admin = postSnapshot.getValue(Admin.class);
+                    adminList.add(admin);
+                    assert admin != null;
+                    IDs.add(admin.id);
+                    LOCs.add(admin.location);
+                    Petrol.add(admin.petrol);
+                    Diesel.add(admin.diesel);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: ");
+            }
+        });
 
         Button btn = (Button) findViewById(R.id.btn);
 
@@ -48,6 +83,7 @@ public class Request extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 new AlertDialog.Builder(Request.this)
                         .setTitle("Confirm Request")
                         .setMessage("Are you sure you want to submit the request?")
@@ -70,12 +106,33 @@ public class Request extends AppCompatActivity {
                                             //Toast.makeText(AdminStocks.this, String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
                                             Boolean v = (Boolean) task.getResult().getValue();
                                             if (v) {
-                                                Toast.makeText(Request.this, "approved", Toast.LENGTH_SHORT).show();
+                                                //Toast.makeText(Request.this, "approved", Toast.LENGTH_SHORT).show();
+                                                String loc = dropdown1.getSelectedItem().toString().toLowerCase(Locale.ROOT);
+                                                String type = dropdown2.getSelectedItem().toString().toLowerCase(Locale.ROOT);
+                                                int q = adminChoose(loc, type);
+                                                //Toast.makeText(Request.this, String.valueOf(q), Toast.LENGTH_SHORT).show();
+                                                if (q>=0) {
 
-                                                //TODO: Check availability and approve
+                                                    databaseAdmin.child(IDs.get(q)).child(type).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                                            if (!task.isSuccessful()) {
+                                                                Log.e("firebase", "Error getting data", task.getException());
+                                                            } else {
+                                                                String v = String.valueOf(task.getResult().getValue());
+                                                                Integer v1 = Integer.parseInt(v) - 10;
+                                                                databaseAdmin.child(IDs.get(q)).child(type).setValue(v1);
+                                                                databaseUser.child(id).child("approved").setValue(false);
+                                                                databaseUser.child(id).child("qr").setValue(true);
+                                                            }
+                                                        }
+                                                    });
 
-                                                Intent myIntent = new Intent(Request.this, User_Home1.class);
-                                                Request.this.startActivity(myIntent);
+                                                    Intent myIntent = new Intent(Request.this, User_Home1.class);
+                                                    myIntent.putExtra("id", id);
+                                                    Request.this.startActivity(myIntent);
+                                                }
+                                                else {Toast.makeText(Request.this, "No Stocks", Toast.LENGTH_SHORT).show();}
                                             }
                                             else {
                                                 Toast.makeText(Request.this, "Not Approved", Toast.LENGTH_SHORT).show();
@@ -88,5 +145,32 @@ public class Request extends AppCompatActivity {
                         .show();
             }
         });
+    }
+
+    public int adminChoose(String loc, String type){
+        ArrayList<Integer> idx = new ArrayList<>();
+        ArrayList<Integer> amt = new ArrayList<>();
+        ArrayList<Integer> fin = new ArrayList<>();
+        int max = 0;
+        if (type.equals("petrol")){
+            for (int i = 0; i<LOCs.size(); i++){
+                if ((LOCs.get(i)).equals(loc)) {
+                    idx.add(i);
+                    amt.add(Petrol.get(i));
+                    if (Petrol.get(i)>max) max = Petrol.get(i);
+                }
+            }
+        }
+        else {
+            for (int i = 0; i<LOCs.size(); i++){
+                if ((LOCs.get(i)).equals(loc)) {
+                    idx.add(i);
+                    amt.add(Diesel.get(i));
+                    if (Diesel.get(i)>max) max = Diesel.get(i);
+                }
+            }
+        }
+        if (max>10) return idx.get(amt.indexOf(max));
+        else return (-1);
     }
 }

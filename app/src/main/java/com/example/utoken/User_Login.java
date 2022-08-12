@@ -4,12 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,7 +74,7 @@ public class User_Login extends AppCompatActivity {
                 if(nic.equals("") || pw.equals("")){
                     Toast.makeText(User_Login.this, "Please enter Username and Password", Toast.LENGTH_SHORT).show();
                 }
-                else if (nic.length()!=12 && nic.length()!=13) {
+                else if (nic.length()<10) {
                     Toast.makeText(User_Login.this, "Invalid NIC", Toast.LENGTH_SHORT).show();
                 }
                 else if (!(NICs.contains(nic))){
@@ -81,13 +85,29 @@ public class User_Login extends AppCompatActivity {
                     Toast.makeText(User_Login.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(User_Login.this, "Log In Successful", Toast.LENGTH_SHORT).show();
-                    //TODO: User home
-                    Intent myIntent = new Intent(User_Login.this, Request.class);
-                    myIntent.putExtra("id", IDs.get(NICs.indexOf(nic)));
-                    User_Login.this.startActivity(myIntent);
+                    databaseUser.child(IDs.get(NICs.indexOf(nic))).child("qr").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if (!task.isSuccessful()) {
+                                Log.e("firebase", "Error getting data", task.getException());
+                            } else {
+                                Boolean v = (Boolean) task.getResult().getValue();
+                                if (v) {
+                                    Toast.makeText(User_Login.this, "Log In Successful", Toast.LENGTH_SHORT).show();
+                                    Intent myIntent = new Intent(User_Login.this, User_Home1.class);
+                                    myIntent.putExtra("id", IDs.get(NICs.indexOf(nic)));
+                                    User_Login.this.startActivity(myIntent);
+                                }
+                                else {
+                                    Toast.makeText(User_Login.this, "Log In Successful", Toast.LENGTH_SHORT).show();
+                                    Intent myIntent = new Intent(User_Login.this, Request.class);
+                                    myIntent.putExtra("id", IDs.get(NICs.indexOf(nic)));
+                                    User_Login.this.startActivity(myIntent);
+                                }
+                            }
+                        }
+                    });
                 }
-
             }
         });
         Signup.setOnClickListener(new View.OnClickListener() {
