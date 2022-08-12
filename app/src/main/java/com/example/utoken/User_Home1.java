@@ -40,7 +40,7 @@ public class User_Home1 extends AppCompatActivity {
         MultiFormatWriter mWriter = new MultiFormatWriter();
         try {
             //BitMatrix class to encode entered text and set Width & Height
-            BitMatrix mMatrix = mWriter.encode(id, BarcodeFormat.QR_CODE, 400,400);
+            BitMatrix mMatrix = mWriter.encode(idA + id, BarcodeFormat.QR_CODE, 400,400);
             BarcodeEncoder mEncoder = new BarcodeEncoder();
             Bitmap mBitmap = mEncoder.createBitmap(mMatrix);//creating bitmap of code
             imageCode.setImageBitmap(mBitmap);//Setting generated QR code to imageView

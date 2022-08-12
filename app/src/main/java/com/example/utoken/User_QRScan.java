@@ -32,6 +32,8 @@ public class User_QRScan extends AppCompatActivity {
 
     DatabaseReference databaseUser;
 
+    String idA;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,8 @@ public class User_QRScan extends AppCompatActivity {
 
         Button btn_scan = (Button) findViewById(R.id.btn_scan);
         display = (TextView) findViewById(R.id.display);
+
+        idA = getIntent().getStringExtra("id");
 
         databaseUser = FirebaseDatabase.getInstance().getReference("user");
 
@@ -59,30 +63,38 @@ public class User_QRScan extends AppCompatActivity {
 
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result->{
 
-        String id = result.getContents();
+        String code = result.getContents();
+        if (code.contains(idA)) {
+            String id = code.replaceAll(idA, "");
 
-        databaseUser.child(id).child("qr").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                } else {
-                    Boolean v = (Boolean) task.getResult().getValue();
-                    if (result.getContents() != null){
-                        //Toast.makeText(this, result.getContents(), Toast.LENGTH_SHORT).show();
-                        if(v){
-                            display.setText("APPROVED");
-                            display.setBackgroundColor(Color.parseColor("#406050"));       //grey
-                            databaseUser.child(id).child("qr").setValue(false);
-                        }
-                        else{
-                            display.setText("INVALID");
-                            display.setTextColor(Color.parseColor("#ffffff"));             //black
-                            display.setBackgroundColor(Color.parseColor("#9297a1"));       //grey
+            databaseUser.child(id).child("qr").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    } else {
+                        Boolean v = (Boolean) task.getResult().getValue();
+                        if (result.getContents() != null) {
+                            //Toast.makeText(this, result.getContents(), Toast.LENGTH_SHORT).show();
+                            if (v) {
+                                display.setText("APPROVED");
+                                display.setBackgroundColor(Color.parseColor("#406050"));       //grey
+                                databaseUser.child(id).child("qr").setValue(false);
+                            } else {
+                                display.setText("INVALID");
+                                display.setTextColor(Color.parseColor("#ffffff"));             //black
+                                display.setBackgroundColor(Color.parseColor("#9297a1"));       //grey
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
+        else{
+            Toast.makeText(this, "Wrong Station", Toast.LENGTH_SHORT).show();
+            display.setText("INVALID");
+            display.setTextColor(Color.parseColor("#ffffff"));             //black
+            display.setBackgroundColor(Color.parseColor("#9297a1"));       //grey
+        }
     });
 }
