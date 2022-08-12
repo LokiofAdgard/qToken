@@ -29,6 +29,7 @@ public class User_Login extends AppCompatActivity {
     ArrayList<String> NICs = new ArrayList<>();
     ArrayList<String> VIDs = new ArrayList<>();
     ArrayList<String> PWs = new ArrayList<>();
+    ArrayList<Long> TIMEs = new ArrayList<>();
 
     DatabaseReference databaseUser;
 
@@ -52,6 +53,7 @@ public class User_Login extends AppCompatActivity {
                     NICs.add(user.nic);
                     VIDs.add(user.vid);
                     PWs.add(user.password);
+                    TIMEs.add(user.time);
                 }
             }
             @Override
@@ -91,6 +93,9 @@ public class User_Login extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Log.e("firebase", "Error getting data", task.getException());
                             } else {
+                                if ((System.currentTimeMillis() - TIMEs.get(NICs.indexOf(nic)))>100000){
+                                    databaseUser.child(IDs.get(NICs.indexOf(nic))).child("approved").setValue(true);
+                                }
                                 Boolean v = (Boolean) task.getResult().getValue();
                                 if (v) {
                                     Toast.makeText(User_Login.this, "Log In Successful", Toast.LENGTH_SHORT).show();

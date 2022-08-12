@@ -124,6 +124,7 @@ public class Request extends AppCompatActivity {
                                                                 databaseAdmin.child(IDs.get(q)).child(type).setValue(v1);
                                                                 databaseUser.child(id).child("approved").setValue(false);
                                                                 databaseUser.child(id).child("qr").setValue(true);
+                                                                databaseUser.child(id).child("time").setValue(System.currentTimeMillis());
                                                             }
                                                         }
                                                     });

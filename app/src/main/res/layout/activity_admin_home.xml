@@ -11,6 +11,62 @@
     android:gravity="center"
     tools:context=".AdminHome">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:text="Unassigned Petrol :"
+            android:textSize="20sp"
+            android:gravity="center">
+        </TextView>
+
+        <TextView
+            android:id="@+id/ptr"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="EE"
+            android:textSize="20sp"
+            android:gravity="center">
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:text="Unassigned Diesel :"
+            android:textSize="20sp"
+            android:gravity="center">
+        </TextView>
+
+        <TextView
+            android:id="@+id/die"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="EE"
+            android:textSize="20sp"
+            android:gravity="center">
+        </TextView>
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/stock"
