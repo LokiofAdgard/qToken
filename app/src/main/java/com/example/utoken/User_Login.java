@@ -74,7 +74,7 @@ public class User_Login extends AppCompatActivity {
                 if(nic.equals("") || pw.equals("")){
                     Toast.makeText(User_Login.this, "Please enter Username and Password", Toast.LENGTH_SHORT).show();
                 }
-                else if (nic.length()!=12 && nic.length()!=13) {
+                else if (nic.length()<10) {
                     Toast.makeText(User_Login.this, "Invalid NIC", Toast.LENGTH_SHORT).show();
                 }
                 else if (!(NICs.contains(nic))){

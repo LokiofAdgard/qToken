@@ -74,7 +74,7 @@ public class Signup extends AppCompatActivity {
             if(nic.equals("") || pw.equals("") || pw2.equals("") || v1.equals("") || v2.equals("")){
                 Toast.makeText(Signup.this, "Please Fill All Fields", Toast.LENGTH_SHORT).show();
             }
-            else if (nic.length()!=12 && nic.length()!=13) {
+            else if (nic.length()<10) {
                 Toast.makeText(Signup.this, "Invalid NIC", Toast.LENGTH_SHORT).show();
             }
             else if (NICs.contains(nic)) {
