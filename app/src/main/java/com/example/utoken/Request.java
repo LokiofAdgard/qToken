@@ -169,10 +169,18 @@ public class Request extends AppCompatActivity {
                                                     myIntent.putExtra("nAdmin", NAMEs.get(q));
                                                     Request.this.startActivity(myIntent);
                                                 }
-                                                else {Toast.makeText(Request.this, "No Stocks", Toast.LENGTH_SHORT).show();}
+                                                else {
+                                                    Toast.makeText(Request.this, "No Stocks", Toast.LENGTH_SHORT).show();
+                                                    Intent myIntent = new Intent(Request.this, Request.class);
+                                                    myIntent.putExtra("id", id);
+                                                    Request.this.startActivity(myIntent);
+                                                }
                                             }
                                             else {
                                                 Toast.makeText(Request.this, "Not Approved", Toast.LENGTH_SHORT).show();
+                                                Intent myIntent = new Intent(Request.this, Request.class);
+                                                myIntent.putExtra("id", id);
+                                                Request.this.startActivity(myIntent);
                                             }
                                         }
                                     }
