@@ -30,6 +30,8 @@ public class User_Login extends AppCompatActivity {
     ArrayList<String> VIDs = new ArrayList<>();
     ArrayList<String> PWs = new ArrayList<>();
     ArrayList<Long> TIMEs = new ArrayList<>();
+    ArrayList<String> STs = new ArrayList<>();
+    ArrayList<String> ISTs = new ArrayList<>();
 
     DatabaseReference databaseUser;
 
@@ -54,6 +56,8 @@ public class User_Login extends AppCompatActivity {
                     VIDs.add(user.vid);
                     PWs.add(user.password);
                     TIMEs.add(user.time);
+                    STs.add(user.station);
+                    ISTs.add(user.aid);
                 }
             }
             @Override
@@ -101,6 +105,8 @@ public class User_Login extends AppCompatActivity {
                                     Toast.makeText(User_Login.this, "Log In Successful", Toast.LENGTH_SHORT).show();
                                     Intent myIntent = new Intent(User_Login.this, User_Home1.class);
                                     myIntent.putExtra("id", IDs.get(NICs.indexOf(nic)));
+                                    myIntent.putExtra("idAdmin", ISTs.get(NICs.indexOf(nic)));
+                                    myIntent.putExtra("nAdmin", STs.get(NICs.indexOf(nic)));
                                     User_Login.this.startActivity(myIntent);
                                 }
                                 else {

@@ -29,6 +29,7 @@ import java.util.Locale;
 
 public class Request extends AppCompatActivity {
 
+    ArrayList<String> NAMEs = new ArrayList<>();
     ArrayList<String> LOCs = new ArrayList<>();
     ArrayList<String> IDs = new ArrayList<>();
     ArrayList<Integer> Petrol = new ArrayList<>();
@@ -56,6 +57,7 @@ public class Request extends AppCompatActivity {
                     Admin admin = postSnapshot.getValue(Admin.class);
                     adminList.add(admin);
                     assert admin != null;
+                    NAMEs.add(admin.name);
                     IDs.add(admin.id);
                     LOCs.add(admin.location);
                     Petrol.add(admin.petrol);
@@ -67,6 +69,7 @@ public class Request extends AppCompatActivity {
                 System.out.println("The read failed: ");
             }
         });
+
 
         Button btn = (Button) findViewById(R.id.btn);
 
@@ -124,6 +127,8 @@ public class Request extends AppCompatActivity {
                                                                 databaseAdmin.child(IDs.get(q)).child(type).setValue(v1);
                                                                 databaseUser.child(id).child("approved").setValue(false);
                                                                 databaseUser.child(id).child("qr").setValue(true);
+                                                                databaseUser.child(id).child("station").setValue(NAMEs.get(q));
+                                                                databaseUser.child(id).child("aid").setValue(IDs.get(q));
                                                                 databaseUser.child(id).child("time").setValue(System.currentTimeMillis());
                                                             }
                                                         }
@@ -131,6 +136,8 @@ public class Request extends AppCompatActivity {
 
                                                     Intent myIntent = new Intent(Request.this, User_Home1.class);
                                                     myIntent.putExtra("id", id);
+                                                    myIntent.putExtra("idAdmin", IDs.get(q));
+                                                    myIntent.putExtra("nAdmin", NAMEs.get(q));
                                                     Request.this.startActivity(myIntent);
                                                 }
                                                 else {Toast.makeText(Request.this, "No Stocks", Toast.LENGTH_SHORT).show();}
