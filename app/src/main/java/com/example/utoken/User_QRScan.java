@@ -25,8 +25,8 @@ import java.util.List;
 
 public class User_QRScan extends AppCompatActivity {
 
-    String[] codes = new String[]{"say", "you", "me"};
-    List<String> codeList = new ArrayList<>(Arrays.asList(codes));
+    //String[] codes = new String[]{"say", "you", "me"};
+    //List<String> codeList = new ArrayList<>(Arrays.asList(codes));
 
     TextView display;
 

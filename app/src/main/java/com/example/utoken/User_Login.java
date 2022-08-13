@@ -34,6 +34,9 @@ public class User_Login extends AppCompatActivity {
     ArrayList<String> ISTs = new ArrayList<>();
 
     DatabaseReference databaseUser;
+    DatabaseReference databaseControl;
+
+    long time = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class User_Login extends AppCompatActivity {
         setContentView(R.layout.activity_user_login);
 
         databaseUser = FirebaseDatabase.getInstance().getReference("user");
+        databaseControl = FirebaseDatabase.getInstance().getReference("control");
 
         List<User> userList = new ArrayList<>();
         databaseUser.addValueEventListener(new ValueEventListener() {
@@ -63,6 +67,18 @@ public class User_Login extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("The read failed: ");
+            }
+        });
+
+        databaseControl.child("time").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    time = Integer.parseInt(String.valueOf(task.getResult().getValue()));
+                }
             }
         });
 
@@ -97,7 +113,7 @@ public class User_Login extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Log.e("firebase", "Error getting data", task.getException());
                             } else {
-                                if ((System.currentTimeMillis() - TIMEs.get(NICs.indexOf(nic)))>100000){
+                                if ((System.currentTimeMillis() - TIMEs.get(NICs.indexOf(nic)))>time){
                                     databaseUser.child(IDs.get(NICs.indexOf(nic))).child("approved").setValue(true);
                                 }
                                 Boolean v = (Boolean) task.getResult().getValue();
