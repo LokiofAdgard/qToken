@@ -37,6 +37,10 @@ public class Request extends AppCompatActivity {
 
     DatabaseReference databaseUser;
     DatabaseReference databaseAdmin;
+    DatabaseReference databaseControl;
+
+    int quota = 10;
+    boolean enabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,7 @@ public class Request extends AppCompatActivity {
 
         databaseUser = FirebaseDatabase.getInstance().getReference("user");
         databaseAdmin = FirebaseDatabase.getInstance().getReference("admin");
+        databaseControl = FirebaseDatabase.getInstance().getReference("control");
 
         List<Admin> adminList = new ArrayList<>();
         databaseAdmin.addValueEventListener(new ValueEventListener() {
@@ -67,6 +72,30 @@ public class Request extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("The read failed: ");
+            }
+        });
+
+        databaseControl.child("quota").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    quota = Integer.parseInt(String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+
+        databaseControl.child("enabled").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    enabled = (Boolean) task.getResult().getValue();
+                }
             }
         });
 
@@ -108,7 +137,7 @@ public class Request extends AppCompatActivity {
                                         else {
                                             //Toast.makeText(AdminStocks.this, String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
                                             Boolean v = (Boolean) task.getResult().getValue();
-                                            if (v) {
+                                            if (v && enabled) {
                                                 //Toast.makeText(Request.this, "approved", Toast.LENGTH_SHORT).show();
                                                 String loc = dropdown1.getSelectedItem().toString().toLowerCase(Locale.ROOT);
                                                 String type = dropdown2.getSelectedItem().toString().toLowerCase(Locale.ROOT);
@@ -123,7 +152,7 @@ public class Request extends AppCompatActivity {
                                                                 Log.e("firebase", "Error getting data", task.getException());
                                                             } else {
                                                                 String v = String.valueOf(task.getResult().getValue());
-                                                                Integer v1 = Integer.parseInt(v) - 10;
+                                                                Integer v1 = Integer.parseInt(v) - quota;
                                                                 databaseAdmin.child(IDs.get(q)).child(type).setValue(v1);
                                                                 databaseUser.child(id).child("approved").setValue(false);
                                                                 databaseUser.child(id).child("qr").setValue(true);
@@ -140,10 +169,18 @@ public class Request extends AppCompatActivity {
                                                     myIntent.putExtra("nAdmin", NAMEs.get(q));
                                                     Request.this.startActivity(myIntent);
                                                 }
-                                                else {Toast.makeText(Request.this, "No Stocks", Toast.LENGTH_SHORT).show();}
+                                                else {
+                                                    Toast.makeText(Request.this, "No Stocks", Toast.LENGTH_SHORT).show();
+                                                    Intent myIntent = new Intent(Request.this, Request.class);
+                                                    myIntent.putExtra("id", id);
+                                                    Request.this.startActivity(myIntent);
+                                                }
                                             }
                                             else {
                                                 Toast.makeText(Request.this, "Not Approved", Toast.LENGTH_SHORT).show();
+                                                Intent myIntent = new Intent(Request.this, Request.class);
+                                                myIntent.putExtra("id", id);
+                                                Request.this.startActivity(myIntent);
                                             }
                                         }
                                     }
@@ -158,7 +195,6 @@ public class Request extends AppCompatActivity {
     public int adminChoose(String loc, String type){
         ArrayList<Integer> idx = new ArrayList<>();
         ArrayList<Integer> amt = new ArrayList<>();
-        ArrayList<Integer> fin = new ArrayList<>();
         int max = 0;
         if (type.equals("petrol")){
             for (int i = 0; i<LOCs.size(); i++){
@@ -178,7 +214,7 @@ public class Request extends AppCompatActivity {
                 }
             }
         }
-        if (max>10) return idx.get(amt.indexOf(max));
+        if (max>quota) return idx.get(amt.indexOf(max));
         else return (-1);
     }
 }
