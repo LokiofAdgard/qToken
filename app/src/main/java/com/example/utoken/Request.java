@@ -40,7 +40,8 @@ public class Request extends AppCompatActivity {
     DatabaseReference databaseAdmin;
     DatabaseReference databaseControl;
 
-    int quota = 10;
+    int quota_p = 10;
+    int quota_d = 10;
     boolean enabled = false;
 
     @Override
@@ -77,14 +78,26 @@ public class Request extends AppCompatActivity {
             }
         });
 
-        databaseControl.child("quota").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        databaseControl.child("quota_p").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
                 }
                 else {
-                    quota = Integer.parseInt(String.valueOf(task.getResult().getValue()));
+                    quota_p = Integer.parseInt(String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+
+        databaseControl.child("quota_d").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    quota_d = Integer.parseInt(String.valueOf(task.getResult().getValue()));
                 }
             }
         });
@@ -157,7 +170,13 @@ public class Request extends AppCompatActivity {
                                                                 Log.e("firebase", "Error getting data", task.getException());
                                                             } else {
                                                                 String v = String.valueOf(task.getResult().getValue());
-                                                                Integer v1 = Integer.parseInt(v) - quota;
+                                                                Integer v1 = 0;
+                                                                if (type.equals("petrol")) {
+                                                                    v1 = Integer.parseInt(v) - quota_p;
+                                                                }
+                                                                else{
+                                                                    v1 = Integer.parseInt(v) - quota_d;
+                                                                }
                                                                 databaseAdmin.child(IDs.get(q)).child(type).setValue(v1);
                                                                 databaseUser.child(id).child("approved").setValue(false);
                                                                 databaseUser.child(id).child("qr").setValue(true);
@@ -211,6 +230,8 @@ public class Request extends AppCompatActivity {
                     if (Petrol.get(i)>max) max = Petrol.get(i);
                 }
             }
+            if (max>quota_p) return idx.get(amt.indexOf(max));
+            else return (-1);
         }
         else {
             for (int i = 0; i<LOCs.size(); i++){
@@ -220,8 +241,8 @@ public class Request extends AppCompatActivity {
                     if (Diesel.get(i)>max) max = Diesel.get(i);
                 }
             }
+            if (max>quota_d) return idx.get(amt.indexOf(max));
+            else return (-1);
         }
-        if (max>quota) return idx.get(amt.indexOf(max));
-        else return (-1);
     }
 }
