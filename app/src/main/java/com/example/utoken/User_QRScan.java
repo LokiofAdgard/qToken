@@ -33,6 +33,7 @@ public class User_QRScan extends AppCompatActivity {
     DatabaseReference databaseUser;
 
     String idA;
+    String vid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,19 @@ public class User_QRScan extends AppCompatActivity {
         if (code.contains(idA)) {
             String id = code.replaceAll(idA, "");
 
+            databaseUser.child(id).child("vid").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    }
+                    else {
+                        //Toast.makeText(AdminStocks.this, String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
+                        vid = String.valueOf(task.getResult().getValue());
+                    }
+                }
+            });
+
             databaseUser.child(id).child("qr").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -77,7 +91,7 @@ public class User_QRScan extends AppCompatActivity {
                         if (result.getContents() != null) {
                             //Toast.makeText(this, result.getContents(), Toast.LENGTH_SHORT).show();
                             if (v) {
-                                display.setText("APPROVED");
+                                display.setText("APPROVED" + vid);
                                 display.setBackgroundColor(Color.parseColor("#406050"));       //grey
                                 databaseUser.child(id).child("qr").setValue(false);
                             } else {
