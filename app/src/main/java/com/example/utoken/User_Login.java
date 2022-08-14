@@ -129,6 +129,7 @@ public class User_Login extends AppCompatActivity {
                                     Toast.makeText(User_Login.this, "Log In Successful", Toast.LENGTH_SHORT).show();
                                     Intent myIntent = new Intent(User_Login.this, Request.class);
                                     myIntent.putExtra("id", IDs.get(NICs.indexOf(nic)));
+                                    myIntent.putExtra("time", TIMEs.get(NICs.indexOf(nic)) + time);
                                     User_Login.this.startActivity(myIntent);
                                 }
                             }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,6 +49,7 @@ public class Request extends AppCompatActivity {
         setContentView(R.layout.activity_request);
 
         String id = getIntent().getStringExtra("id");
+        Long t = getIntent().getLongExtra("time", 0);
 
         databaseUser = FirebaseDatabase.getInstance().getReference("user");
         databaseAdmin = FirebaseDatabase.getInstance().getReference("admin");
@@ -99,8 +101,11 @@ public class Request extends AppCompatActivity {
             }
         });
 
-
         Button btn = (Button) findViewById(R.id.btn);
+        TextView timer = (TextView) findViewById(R.id.tim);
+
+        int t2 = (int) ((t - System.currentTimeMillis())/(60*60*10));
+        if (t2>=0 )timer.setText("Waiting time: " + String.valueOf((t2/100)+1) + "H");
 
         Spinner dropdown1 = findViewById(R.id.spinner1);
         String[] items1 = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"};
@@ -172,6 +177,7 @@ public class Request extends AppCompatActivity {
                                                 else {
                                                     Toast.makeText(Request.this, "No Stocks", Toast.LENGTH_SHORT).show();
                                                     Intent myIntent = new Intent(Request.this, Request.class);
+                                                    myIntent.putExtra("time", t);
                                                     myIntent.putExtra("id", id);
                                                     Request.this.startActivity(myIntent);
                                                 }
@@ -179,6 +185,7 @@ public class Request extends AppCompatActivity {
                                             else {
                                                 Toast.makeText(Request.this, "Not Approved", Toast.LENGTH_SHORT).show();
                                                 Intent myIntent = new Intent(Request.this, Request.class);
+                                                myIntent.putExtra("time", t);
                                                 myIntent.putExtra("id", id);
                                                 Request.this.startActivity(myIntent);
                                             }
