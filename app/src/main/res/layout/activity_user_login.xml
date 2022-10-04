@@ -6,7 +6,6 @@
     android:padding="10dp"
     android:orientation="vertical"
     android:weightSum="5"
-    android:background="@color/light_green"
     android:layout_gravity="center"
     android:gravity="center"
     tools:context=".User_Login">

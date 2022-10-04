@@ -7,36 +7,45 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="qToken"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UToken">
         <activity
             android:name=".AdminStocks"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".AdminHome"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".User_QRScan"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".User_Home1"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Request"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Signup"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Admin_Login"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".User_Login"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
